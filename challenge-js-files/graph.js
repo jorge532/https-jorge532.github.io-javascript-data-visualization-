@@ -16,21 +16,21 @@ var myChart = new Chart(ctx, {
 
  
 
-    }]
+    }];
  },
  maintainAspectRatio: false,
  responsive: true
-})
-
-var convertedIntoArray = [];
-$("table2table1 tr").each(function() {
-   var rowDataArray = [];
-   var actualData = $(this).find('td');
-   if (actualData.length > 0) {
-      actualData.each(function() {
-         rowDataArray.push($(this).text());
-      });
-      convertedIntoArray.push(rowDataArray);
-   }
 });
-console.log(convertedIntoArray);
+
+
+$.ajax({
+    url: "prison.csv",
+    async: false,
+    success: function (csvd) {
+        data = $.csv.toArrays(csvd);
+    },
+    dataType: "text",
+    complete: function () {
+        // call a function on complete 
+    }
+});
