@@ -1,42 +1,60 @@
-$(document).ready(function () {
-    showGraph();
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+var ctx_live = document.getElementById("myChart3");
+var myChart3 = new Chart(ctx_live, {
+  type: 'bar',
+  data: {
+    labels: [],
+    datasets: [{
+      data: [],
+      borderWidth: 1,
+      borderColor:'#00c0ef',
+      label: 'datapoints',
+    }]
+  },
+  options: {
+    responsive: true,
+    title: {
+      display: true,
+      text: "Dynamically Updated.",
+    },
+    legend: {
+      display: false
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        }
+      }]
+    }
+  }
 });
 
 
-function showGraph()
-{
-    {
-        $.post("https://canvasjs.com/services/data/datapoints.php",
-        function (data)
-        {
-            console.log(data);
-             var name = [];
-            var marks = [];
+var postId = 1;
 
-            for (var i in data) {
-                name.push(data[i].a);
-                marks.push(data[i].b);
-            }
 
-            var chartdata = {
-                labels: name,
-                datasets: [
-                    {
-                        label: 'EU',
-                        backgroundColor: '#49e2ff',
-                        borderColor: '#46d5f1',
-                        hoverBackgroundColor: '#CCCCCC',
-                        hoverBorderColor: '#666666',
-                        data: marks
-                    }
-                ]
-            };
-
-            var graphTarget = $("#graphCanvas");
-
-            var barGraph = new Chart(graphTarget, {
-                type: 'bar',
-                data: chartdata
-            });
-        });
+var getData = function() {
+  $.ajax({
+    url: 'https://canvasjs.com/services/data/datapoints.php',
+    success: function(data) {
+    
+  
+      myChart3.data.labels.push("Post " + postId++);
+      myChart3.data.datasets[0].data.push(getRandomIntInclusive(1,9));
+      
+      
+      myChart3.update();
     }
+  });
+};
+
+
+setInterval(getData, 1000);
