@@ -1,5 +1,5 @@
 var dataPoints1 = [], dataPoints2 = [];
-var chart1 = new CanvasJS.Chart("chartContainer1", {
+var chart2 = new CanvasJS.Chart("chartContainer2", {
   animationEnabled: true,
   zoomEnabled: true,
   theme: "light1", // "light1", "light2", "dark1", "dark2"
@@ -50,7 +50,7 @@ function getDataPointsFromCSV(csv) {
       });
     }
   }
-  chart1.render();
+  chart2.render();
 }
 
 
